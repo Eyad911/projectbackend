@@ -1,4 +1,3 @@
-const { model, models, Model } = require("mongoose");
 const signUpTemplateCopy = require("./../../db/models/signUpSchema");
 
 const signUpUser = (req, res) => {
