@@ -29,6 +29,17 @@ const getAllElectronics = (req, res) => {
       res.send(err);
     });
 };
+const getAccess = (req, res) => {
+  const {Kind}= req.params
+  electronicsTemplate
+    .find({Kind})
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
 // delete one item
 const deleteElectronics = (req, res) => {
   const { id } = req.params;
@@ -44,4 +55,4 @@ const deleteElectronics = (req, res) => {
     });
 };
 
-module.exports = { addElectronics, getAllElectronics, deleteElectronics };
+module.exports = { addElectronics, getAllElectronics, deleteElectronics, getAccess};
