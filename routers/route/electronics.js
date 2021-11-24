@@ -1,12 +1,13 @@
 const express = require("express");
-const {electronics,getAllElectronics} = require('./../controller/electronics');
+const {addElectronics,getAllElectronics,deleteElectronics} = require('./../controller/electronics');
 
 
 const electronicsRouter = express.Router();
 
 
-electronicsRouter.post('/addni', electronics);
+electronicsRouter.post('/addni', addElectronics);
 electronicsRouter.get('/', getAllElectronics);
+electronicsRouter.delete('/delete',deleteElectronics);
 
 
 

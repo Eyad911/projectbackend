@@ -1,28 +1,47 @@
 const electronicsTemplate = require("./../../db/models/electronicsSchema");
-
-const electronics = (req, res) => {
-  const { Name, Discription, Pic, Price } = req.body;
+// add new Item
+const addElectronics = (req, res) => {
+  const { Name, Discription, Pic, Price,Kind } = req.body;
   const newElectronics = new electronicsTemplate({
-    Name, Discription, Pic, Price
+    Name,
+    Discription,
+    Pic,
+    Price,
+    Kind
   });
-  newElectronics.save().then((result) => {
-    res.json(result);
-  })
-  .catch((err) => {
-    res.send(err);
-  });
+  newElectronics
+    .save()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 };
-
-
+// read All Item
 const getAllElectronics = (req, res) => {
-  electronicsTemplate.find({}).then((result) => {
+  electronicsTemplate
+    .find({})
+    .then((result) => {
       res.send(result);
     })
     .catch((err) => {
       res.send(err);
     });
 };
+// delete one item
+const deleteElectronics = (req, res) => {
+  const { id } = req.params;
 
+  electronicsTemplate
+    .findOneAndRemove({ _id: id }, { new: true })
+    .exec()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
-
-module.exports = {electronics,getAllElectronics}
+module.exports = { addElectronics, getAllElectronics, deleteElectronics };

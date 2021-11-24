@@ -1,7 +1,15 @@
 const signUpTemplateCopy = require("./../../db/models/signUpSchema");
+const bcrybt =require('bcrypt')
 
-const signUpUser = (req, res) => {
-  const { fullName, userName, email, password } = req.body;
+const signUpUser = async (req, res) => {
+  const { fullName, userName, email ,password} = req.body;
+
+  // const saltPass = await bcrybt.genSalt(10);
+  // const securePass = await bcrybt.hash(req.body.password,saltPass);
+  
+  signUpTemplateCopy.findOne({ email: req.body.email }).then((user)=>{
+    if(user) {return res.status(400).json("Email already there");}else {
+ 
   const newUser = new signUpTemplateCopy({
     fullName,
     userName,
@@ -15,7 +23,36 @@ const signUpUser = (req, res) => {
     })
     .catch((err) => {
       res.send(err);
+    }); }})
+};
+const findUserByEmail = (req, res) => {
+  const { email } = req.params;
+  signUpTemplateCopy
+    .find({ email: `${email}` })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
     });
+};
+
+//log in function here
+
+const login = (req, res) => {
+  
+  let valid = signUpTemplateCopy.find((item) => {
+    return req.body.email == item.email && req.body.password == item.password;
+  });
+
+  if (valid) {
+    res.status(200).json({ status: true });
+  } else {
+    res
+      .status(200)
+      .json({ status: false, errMessage: "Incorrect Email or Password" });
+    console.log(false);
+  }
 };
 
 const getAllUsers = (req, res) => {
@@ -63,4 +100,24 @@ const deleteUser = (req, res) => {
     });
 };
 
-module.exports = { signUpUser, updateUser ,getAllUsers,deleteUser};
+
+
+//edit user name
+const editFullName = (req, res) => {
+  const { email } = req.params;
+  const { fullName } = req.body;
+  signUpTemplateCopy
+    .findOneAndUpdate(
+      { email: `${email}` },
+      { $set: { fullName } },
+      { new: true }
+    )
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+module.exports = { signUpUser, updateUser ,getAllUsers,deleteUser, login,findUserByEmail,editFullName};
