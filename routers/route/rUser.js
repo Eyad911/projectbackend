@@ -7,7 +7,6 @@ const {
   login,
   findUserByEmail,
   editFullName,
-  cartUser,
   getCart,
   cartUsercheck,
   removeUserCart
@@ -24,7 +23,7 @@ signUpRouter.get("/", getAllUsers);
 signUpRouter.get("/email/:email", findUserByEmail);
 signUpRouter.put("/edit/:email", editFullName);
 signUpRouter.put("/yourcart/:email/:ObjectId", cartUsercheck);
-signUpRouter.put("/fav/:email/:name", cartUser);
+
 signUpRouter.put("/removecart/:email/:_id", removeUserCart);
 signUpRouter.get("/cart/:email", getCart);
 

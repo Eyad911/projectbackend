@@ -101,21 +101,7 @@ const deleteUser = (req, res) => {
     });
 };
 
-const cartUser = (req, res) => {
-  const { email, name } = req.params;
-  signUpTemplateCopy
-    .findOneAndUpdate(
-      { email: email },
-      { $push: { favorite: name } },
-      { new: true }
-    )
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
-};
+
 
 const removeUserCart = (req, res) => {
   const { email, _id } = req.params;
@@ -192,7 +178,7 @@ module.exports = {
   login,
   findUserByEmail,
   editFullName,
-  cartUser,
+  
   getCart,
   cartUsercheck,
   removeUserCart
